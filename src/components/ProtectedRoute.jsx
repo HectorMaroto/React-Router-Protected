@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import { Navigate, Outlet } from "react-router-dom"
 
-function ProtectedRoute({ children, user, redirectTo = '/landing' }) {
+function ProtectedRoute({ children, isAllowed, redirectTo = '/landing' }) {
 
-    if (!user) {
+    if (!isAllowed) {
         return <Navigate to={redirectTo} />
     }
 

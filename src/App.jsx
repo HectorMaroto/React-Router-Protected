@@ -13,7 +13,9 @@ function App() {
 
     setUser({
       id: 1,
-      name: 'Pepe'
+      name: 'Pepe',
+      permissions: ['analize'],
+      roles: ['admin']
     })
   }
 
@@ -39,17 +41,27 @@ function App() {
         <Route index element={<Landing/>} />
         <Route path="/landing" element={<Landing />} />
         {/* De esta forma creamos un contenedor flexible para todas las rutas hijas protegidas por la misma logica */}
-        <Route element={<ProtectedRoute user={user}/>}> 
+        <Route element={<ProtectedRoute isAllowed={!!user}/>}> 
           <Route path="/home" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />}/>
         </Route>
         {/* Protegemos una unica ruta, pero en este caso no como ruta hija, sino como 'children' de ProtectedRoute */}
         <Route path="/analytics" element={
-          <ProtectedRoute user={user}>
+          <ProtectedRoute
+            isAllowed={!!user && user.permissions.includes('analize')}
+            redirectTo='/home'
+          >
             <Analytics />
           </ProtectedRoute>
         } />
-        <Route path="/admin" element={<Admin/>} />
+        <Route path="/admin" element={
+          <ProtectedRoute
+            isAllowed={!!user && user.roles.includes('admin')}
+            redirectTo='/home'
+          >
+            <Admin/>
+          </ProtectedRoute>
+        } />
       </Routes>
     </BrowserRouter>
   )
