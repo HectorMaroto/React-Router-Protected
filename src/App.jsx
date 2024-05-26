@@ -37,15 +37,18 @@ function App() {
       <Routes>
         {/* index nos indica la ruta principal o '/' */}
         <Route index element={<Landing/>} />
-        <Route path="/landing" element={<Landing/>} />
-        <Route path="/home" element={
-            <ProtectedRoute user={user}>
-              <Home />
-            </ProtectedRoute>
-          } 
-        />
-        <Route path="/dashboard" element={<Dashboard/>} />
-        <Route path="/analytics" element={<Analytics/>} />
+        <Route path="/landing" element={<Landing />} />
+        {/* De esta forma creamos un contenedor flexible para todas las rutas hijas protegidas por la misma logica */}
+        <Route element={<ProtectedRoute user={user}/>}> 
+          <Route path="/home" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />}/>
+        </Route>
+        {/* Protegemos una unica ruta, pero en este caso no como ruta hija, sino como 'children' de ProtectedRoute */}
+        <Route path="/analytics" element={
+          <ProtectedRoute user={user}>
+            <Analytics />
+          </ProtectedRoute>
+        } />
         <Route path="/admin" element={<Admin/>} />
       </Routes>
     </BrowserRouter>
