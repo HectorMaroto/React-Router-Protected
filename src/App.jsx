@@ -1,17 +1,49 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
 import { Admin, Analytics, Dashboard, Home, Landing } from "./pages"
+import ProtectedRoute from "./components/ProtectedRoute";
+import { useState } from "react"
 
 
 function App() {
+
+  const [user, setUser] = useState(null);
+
+  const login = () => {
+    // request done and server sent a response with a user logged successfully
+
+    setUser({
+      id: 1,
+      name: 'Pepe'
+    })
+  }
+
+  const logout = () => {
+    setUser(null)
+  }
+
   return (
     <BrowserRouter>
       
-      <Navigation/>
+      <Navigation />
+      
+      {
+        user ? (
+          <button onClick={logout}>Logout</button>
+        ) : (
+          <button onClick={login}>Login</button>
+        )
+      }
+
       <Routes>
         {/* index nos indica la ruta principal o '/' */}
         <Route index element={<Landing/>} />
         <Route path="/landing" element={<Landing/>} />
-        <Route path="/home" element={<Home/>} />
+        <Route path="/home" element={
+            <ProtectedRoute user={user}>
+              <Home />
+            </ProtectedRoute>
+          } 
+        />
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/analytics" element={<Analytics/>} />
         <Route path="/admin" element={<Admin/>} />

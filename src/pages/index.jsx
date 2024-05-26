@@ -1,8 +1,15 @@
+/* eslint-disable react/prop-types */
 // Aqui vamos a tener todos los componentes exportados para App.jsx
+
+
 
 export const Landing = () => <h2>Landing Page (Public)</h2>
 
-export const Home = () => <h2>Home Page (Private)</h2>
+
+
+export const Home = () => {
+    return <h2>Home Page (Private)</h2>
+}
 
 export const Dashboard = () => <h2>Dashboard Page (Private)</h2>
 
