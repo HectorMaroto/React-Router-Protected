@@ -4,6 +4,6 @@
 > [!NOTE]
 > Run the development server:
 > <br>
-> ````npm run dev```
+> ```npm run dev```
 
 
